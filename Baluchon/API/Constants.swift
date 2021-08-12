@@ -19,13 +19,6 @@ struct Constants {
     }
 }
 
-class recurences {
-    private struct Keys {
-        static let changeUpdate = "changeUpdate"
-        static let changeRates = "changeRates"
-    }
-}
-
 // enumeration to manage errors
 enum ErrorCases: Swift.Error {
     case noData
