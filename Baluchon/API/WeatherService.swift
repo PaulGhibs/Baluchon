@@ -8,29 +8,32 @@
 import Foundation
 
 
-class WeatherService {
-    // MARK: - Properties
-
-    static func getWeather(for city: String) -> URLRequest {
-        let query = Weather.url + city
-
-        let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-        let stringURL = Weather.endpoint + encodedQuery
-
-        let url = URL(string: stringURL)!
-        var request = URLRequest(url: url)
-        request.httpMethod = MethodHttp.get.rawValue
-
-        return request
-    }
+struct WeatherService {
     
-    static func parse(_ data: Data, with decoder: JSONDecoder) -> Any {
-        guard let json = try? decoder.decode(WeatherJSON.self, from: data) else {
-            return (-1)
-        }
+    
+    // MARK: - Properties
+    static func getWeather(for city: String) -> URLRequest {
+        let url = Weather.url
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = MethodHttp.get.rawValue
 
-        let resource = CityWeather(from: json)
-        return resource
+        return urlRequest
+
+    }
+}
+
+extension WeatherService: ServiceProtocol {
+    static func parse(_ data: Data, with decoder: JSONDecoder) -> Any {
+        guard let decodedData = try? decoder.decode(WeatherJSON.self, from: data) else {
+            return 1
+        }
+        let id = decodedData.weather[0].id
+        let temperature = decodedData.main.temp
+        let cityName = decodedData.name
+        let weather = WeatherJSON(conditionId: id, cityName: cityName, temperature: temperature)
+        
+        return weather
+        
     }
     
 }

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import CoreLocation
 
 // list HTPPMethods
 enum MethodHttp: String {
@@ -25,28 +25,33 @@ struct Fixer {
     static var url: String { return Fixer.endpoint + Fixer.accessKey + Fixer.parameters }
 }
 // TRANSLATE
-
 struct Translate {
     static private let endpoint = "https://translation.googleapis.com/language/translate/v2"
     static private let accessKey = "?key=\(Constants.valueAPIKey("apiTranslate"))"
-    static private let parameters = "&sybols=USD"
+    static private let parameters = "&source=fr&target=en&format=text&q="
+
+    /// return Google Translation service location
     static var url: String {
         return Translate.endpoint + Translate.accessKey + Translate.parameters
     }
-    
 }
 // Weather
 struct Weather {
+  
     static let endpoint = "https://api.openweathermap.org/data/2.5/weather?"
-    static let accessKey = "?key=\(Constants.valueAPIKey("apiWeather"))"
-    static let parameters = ""
+    static let parameters = "&units=metric"
+    static let accessKey = "?appid=\(Constants.valueAPIKey("apiWeather"))"
     static var url: String {
         return Weather.endpoint + Weather.accessKey + Weather.parameters
     }
-    
 }
 
-
+extension Weather {
+    /// Construct a query for a city (YQL format)
+    init(city: Any) {
+        place = "where woeid in (SELECT woeid FROM geo.places WHERE text=\"\(city)\")"
+    }
+}
 // Parse data using a `JSONDecoder`
 protocol ServiceProtocol {
     static func parse(_ data: Data, with decoder: JSONDecoder) -> Any

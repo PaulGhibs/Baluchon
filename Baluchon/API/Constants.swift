@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct Constants {
     static func valueAPIKey(_ nameKey: String) -> String {
     //  path to ApiKeys.plist
@@ -17,14 +16,6 @@ struct Constants {
     let value: String = plist?.object(forKey: nameKey) as! String
     return value
     }
-}
-
-// enumeration to manage errors
-enum ErrorCases: Swift.Error {
-    case noData
-    case wrongResponse(statusCode: Int?)
-    case failure
-    case errorDecode
 }
 
 

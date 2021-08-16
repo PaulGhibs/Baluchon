@@ -9,69 +9,68 @@ import Foundation
 import UIKit
 
 class TranslateViewController: UIViewController {
-    // MARK: - Properties
-    let defaults = UserDefaults.standard
-    var params = [String: String]()
-    // MARK: - Outlets
-    @IBOutlet weak var topFlag: UIButton!
-    @IBOutlet weak var botFlag: UIButton!
-    @IBOutlet weak var translatorInput: UITextView!
-    @IBOutlet weak var translatorOutput: UITextView!
-    @IBOutlet weak var botLabel: UILabel!
-    @IBOutlet weak var topLabel: UILabel!
-    @IBOutlet weak var langButton: UIButton!
-   
+    
+    //    MARK: - Outlets
+
+    @IBOutlet weak var traduireLabel: UILabel!
+    
+    @IBOutlet weak var translateTextField: UITextField!
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    //    MARK: - Actions
+    @IBAction func dismiss(_ sender: UITapGestureRecognizer) {
+        translateTextField.resignFirstResponder()
+        translateTextField.text = ""
+    }
+}
+    
+// MARK: - Textfield Delegate
+
+// Set up UITextFieldDelegate
+extension TranslateViewController: UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpParamsAtLaunch()
+        self.translateTextField.delegate = self
+        toggleActivityIndicator(activityIndicator, shown: false)
     }
-    
-    // MARK: - Actions
-    @IBAction func switchText(_ sender: UIButton) {
-        clearText()
-        TranslatorAPI.shared.swapTexts(&topLabel.text, &botLabel.text)
-        TranslatorAPI.shared.swapTexts(&translatorInput.text, &translatorOutput.text)
-        if let topFlagImageview = topFlag.imageView,
-            let bottomFlagImageView = botFlag.imageView{
-            topFlag.setImage(bottomFlagImageView.image, for: .normal)
-            botFlag.setImage(topFlagImageview.image, for: .normal)
-        }
-        params = ["source": params["target"]!, "target": params["source"]!]
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        traduireLabel.isEnabled = false
     }
-    //Button pressed to get the translation
-    @IBAction func translate(_ sender: UIButton) {
-        translatorOutput.text! = ""
-        TranslatorAPI.shared.getTranslation(q: translatorInput.text!, source: params["source"]!, target: params["target"]!) {
-            (success,translationResult) in
-            if success, let translationResult = translationResult{
-                self.translatorOutput.text! = translationResult
-            }
-            else{
-                self.presentAlert()
-            }
-        }
+}
+
+// MARK: - Request
+
+extension TranslateViewController {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        translateTextField.becomeFirstResponder()
+        guard let text = translateTextField.text else { return false }
+        checkInputValidity(input: text)
+        return true
     }
-    
-    @IBAction func changeTopLang(_ sender: Any) {
-        performSegue(withIdentifier: "changeCountry", sender: self)
-    }
-    
-    @IBAction func changeBotLang(_ sender: Any) {
-        performSegue(withIdentifier: "changeCountry", sender: self)
-    }
-    
-    //Dismiss the keyboard when the user tap on the screen
-    @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
-        translatorInput.resignFirstResponder()
-        translatorOutput.resignFirstResponder()
-    }
-    
-    //To erase the text input and output
-    func clearText(){
-        translatorInput.text! = ""
-        translatorOutput.text! = ""
-    }
-    
-  }
 
 
+    private func checkInputValidity(input: String) {
+        if translateTextField.text == "" {
+            presentVCAlert(with: titleAlert.translateInputValidity.rawValue,
+                           and: messageAlert.translateInputValidity.rawValue)
+        } else {
+            requestTranslation(for: input)
+        }
+    }
+
+   
+    private func requestTranslation(for input: String) {
+        self.toggleActivityIndicator(activityIndicator,shown: true)
+
+        APIService.shared.query(API: .translate, input: input) { (success, resource) in
+            if success, let translatedText = resource as? String {
+                self.toggleActivityIndicator(self.activityIndicator, shown: false)
+                self.translateTextField.text = translatedText
+            } else {
+                self.toggleActivityIndicator(self.activityIndicator, shown: false)
+                self.presentVCAlert(with: titleAlert.failure.rawValue,
+                                    and: messageAlert.translateRequest.rawValue)
+            }
+        }
+    }
+}
