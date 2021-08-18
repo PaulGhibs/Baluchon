@@ -13,7 +13,7 @@ enum titleAlert: String {
     case failure = "❌"
     case convertInputValidity = "🧮"
     case translateInputValidity = "🇫🇷"
-    case weatherInputValidity = "🌦"
+    case weatherRequest = "🌦"
     case locationAuth = "📍"
 }
 

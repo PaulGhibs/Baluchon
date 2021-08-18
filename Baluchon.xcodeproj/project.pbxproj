@@ -100,9 +100,9 @@
 		615D159426B1BD1E00C549DD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				61E562B726C8127D00F25159 /* ConversionJSON.swift */,
 				619A56B726B82F5900350ECC /* TranslatorJSON.swift */,
 				615DEDD526B70DD700DA6A15 /* WeatherJSON.swift */,
-				61E562B726C8127D00F25159 /* ConversionJSON.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

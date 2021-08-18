@@ -34,14 +34,12 @@ extension APIService {
         callback(false, nil)
             return
         }
-
         task = session.dataTask(with: request) { [weak self] (data, response, error) in
             DispatchQueue.main.async {
                 guard let data = data, error == nil else {
                     callback(false, nil)
                     return
                 }
-
                 guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
                     callback(false, nil)
                     return
@@ -49,8 +47,6 @@ extension APIService {
 
                 let decoder = JSONDecoder()
                // guard
-                
-            
                 switch API {
                 case .fixer:
                     if ConversionService.parse(data, with: decoder) as? Int == -1 ||
@@ -66,32 +62,24 @@ extension APIService {
                         return
                     }
                     self?.resource = TranslatorService.parse(data, with: decoder)
-                    
-                case .openweathermap:
-                    if WeatherService.parse(data, with: decoder) as? Int == -1 {
-                        callback(false, nil)
-                        return
-                    }
-                    self?.resource = WeatherService.parse(data, with: decoder)
-                }
-
                 callback(true, self?.resource)
             }
         }
-        task?.resume()
     }
+    task?.resume()
+
+}
 }
 
 extension APIService {
-    
     private func getRequest(API: Services, for input: String = "") -> URLRequest? {
         switch API {
         case .fixer:
             request = ConversionService.getConversion()
         case .translate:
             request = TranslatorService.createRequest(for: input)
-        case .openweathermap:
-            request = WeatherService.getWeather(for: input)}
+        }
         return request
     }
+
 }

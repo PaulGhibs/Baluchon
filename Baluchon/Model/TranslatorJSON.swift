@@ -7,6 +7,8 @@
 
 import Foundation
 
+
+
 // Managing data coming from google api
 struct TranslatorJson: Codable {
     let data: Translations

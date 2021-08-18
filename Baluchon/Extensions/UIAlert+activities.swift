@@ -15,8 +15,6 @@ extension UIViewController{
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertVC, animated: true, completion: nil)
     }
-
-    
     /// Toggle an activity indicator
     func toggleActivityIndicator(_ indicator: UIActivityIndicatorView, shown: Bool) {
         indicator.isHidden = !shown

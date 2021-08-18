@@ -13,7 +13,7 @@ enum MethodHttp: String {
     case post = "POST", get = "GET"
 }
 enum Services {
-    case fixer, translate, openweathermap
+    case fixer, translate
 }
 
 // Hold access to ressources by Services
@@ -36,22 +36,18 @@ struct Translate {
     }
 }
 // Weather
-struct Weather {
-  
+struct openWeather {
+
     static let endpoint = "https://api.openweathermap.org/data/2.5/weather?"
+    static let accessKey = "appid=\(Constants.valueAPIKey("apiWeather"))"
     static let parameters = "&units=metric"
-    static let accessKey = "?appid=\(Constants.valueAPIKey("apiWeather"))"
-    static var url: String {
-        return Weather.endpoint + Weather.accessKey + Weather.parameters
-    }
+    static var url: String { return openWeather.endpoint + openWeather.accessKey + openWeather.parameters }
+
 }
 
-extension Weather {
-    /// Construct a query for a city (YQL format)
-    init(city: Any) {
-        place = "where woeid in (SELECT woeid FROM geo.places WHERE text=\"\(city)\")"
-    }
-}
+
+
+
 // Parse data using a `JSONDecoder`
 protocol ServiceProtocol {
     static func parse(_ data: Data, with decoder: JSONDecoder) -> Any
