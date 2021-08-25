@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import Foundation
 
-extension UIViewController{
+
+extension UIViewController {
 //Show an alert to the user if there is no data coming back from network
     // method to display an alert
     func presentVCAlert(with title: String, and message: String) {
@@ -15,7 +17,7 @@ extension UIViewController{
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertVC, animated: true, completion: nil)
     }
-    /// Toggle an activity indicator
+    // Toggle an activity indicator for each controllers
     func toggleActivityIndicator(_ indicator: UIActivityIndicatorView, shown: Bool) {
         indicator.isHidden = !shown
     }

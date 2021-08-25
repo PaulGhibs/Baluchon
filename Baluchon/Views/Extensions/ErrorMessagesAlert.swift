@@ -8,7 +8,7 @@
 import Foundation
 
 
-
+// Pop up title alert calls from presentAlert function in UIAlertActivities
 enum titleAlert: String {
     case failure = "❌"
     case convertInputValidity = "🧮"

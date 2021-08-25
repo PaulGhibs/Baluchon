@@ -8,15 +8,16 @@
 import UIKit
 
 @IBDesignable class TabBarWithCorners: UITabBar {
+    // add button into the IB for color and radius
     @IBInspectable var color: UIColor?
     @IBInspectable var radii: CGFloat = 15.0
-    
+    // animations handling
     private var shapeLayer: CALayer?
-    
+
     override func draw(_ rect: CGRect) {
         addShape()
     }
-    
+    // draw shape of the tab bar
     private func addShape() {
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = createPath()
@@ -36,6 +37,7 @@ import UIKit
         self.shapeLayer = shapeLayer
     }
     
+    // maths for shape
     private func createPath() -> CGPath {
         let path = UIBezierPath(
             roundedRect: bounds,
@@ -43,6 +45,8 @@ import UIKit
             cornerRadii: CGSize(width: radii, height: 0.0))
         return path.cgPath
     }
+    
+    // show the tab bar
     override func layoutSubviews() {
         super.layoutSubviews()
         self.isTranslucent = true
