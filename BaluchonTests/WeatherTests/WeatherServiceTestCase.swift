@@ -9,7 +9,6 @@ import CoreLocation
 import XCTest
 @testable import Baluchon
 
-
 class WeatherServiceTestCase: XCTestCase {
 
     // this is the URL we expect to call
@@ -35,7 +34,6 @@ class WeatherServiceTestCase: XCTestCase {
         XCTAssertNotNil(query)
 
     }
-    
     func testGivenWeatherModelforConditionName () {
         // Given
         let weatherModel = WeatherModel(conditionId: 1, cityName: "Paris", temperature: Double(115))
@@ -46,7 +44,6 @@ class WeatherServiceTestCase: XCTestCase {
         XCTAssertEqual(query, query)
         XCTAssertNotNil(query)
     }
-    
     func testGivenWeatherModelConditionNameCount() {
         // Given
         let weatherModel = WeatherModel(conditionId: 1, cityName: "Paris", temperature: Double(115))
@@ -58,7 +55,6 @@ class WeatherServiceTestCase: XCTestCase {
         XCTAssertTrue((query != 0))
         XCTAssertNotNil(query)
     }
-    
     // MARK: - tests callbackUrls with WeatherTestUrlProtocol
     func testOpenWeatherGivenWeatherTestUrlProtocol() throws {
         // Given
@@ -78,7 +74,6 @@ class WeatherServiceTestCase: XCTestCase {
       XCTAssertNil(queryItems?["APPID"])
       XCTAssertNil(queryItems?["units"])
     }
-    
     func testGetWeatherShouldPostFailedCallbackIfIncorrectData() {
         // Given
         _ = WeatherService(weatherSession: URLSession(configuration: .default))
@@ -92,7 +87,6 @@ class WeatherServiceTestCase: XCTestCase {
         }
     }
 
-
   extension Array where Element == URLQueryItem {
     // Returns the value of the URLQueryItem with the given name. Returns `nil`
     // if the query item doesn't exist.
@@ -100,4 +94,3 @@ class WeatherServiceTestCase: XCTestCase {
       first(where: { $0.name == name }).flatMap { $0.value }
     }
   }
-

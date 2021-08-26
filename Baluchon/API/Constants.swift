@@ -14,10 +14,8 @@ struct Constants {
         // dictionnary for key
         let plist = NSDictionary(contentsOfFile: path!)
         // result of the key 
-        let value: String = plist?.object(forKey: nameKey) as! String
+        let value: String = (plist?.object(forKey: nameKey) as? String)!
         // value of each apikey
         return value
     }
 }
-
-

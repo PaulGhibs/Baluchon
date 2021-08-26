@@ -8,24 +8,21 @@
 import UIKit
 
 class ChangeViewController: UIViewController {
-    
-    //    MARK: - Outlets
+    // MARK: - Outlets
     // instruct label
     @IBOutlet weak var instructLabel: UILabel!
     // user input text.
     @IBOutlet weak var convertTextField: UITextField!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     // currency icon.
-    
     @IBOutlet weak var currencyLabel: UILabel!
     // convert button
     @IBOutlet weak var convertButton: UIButton!
-    //    MARK: - Actions
+    // MARK: - Actions
     @IBAction func tappedConvertButton(_ sender: UIButton) {
         // request conversion
         launchRequest()
     }
-    
     @IBAction func dismiss(_ sender: UIGestureRecognizer) {
         // resign first reponder with pan gesture recognizer
         convertTextField.resignFirstResponder()
@@ -46,7 +43,6 @@ extension ChangeViewController: UITextFieldDelegate {
         // delegate text field for automatic return
         convertTextField.delegate = self
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
         // activity indicator hidden when user is typing
@@ -54,7 +50,6 @@ extension ChangeViewController: UITextFieldDelegate {
         currencyLabel.isEnabled = false
         currencyLabel.text = "€"
     }
-    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         currencyLabel.text = "€"
         // convert button, currencyLabel, and instruct label hidden when typing
@@ -71,7 +66,6 @@ extension ChangeViewController {
         // clear text field for retry conversion
         convertTextField.text = ""
     }
-    
 }
 
 // MARK: - Request service
@@ -81,7 +75,6 @@ extension ChangeViewController {
     private func launchRequest() {
         // enable keyboard
         convertTextField.becomeFirstResponder()
-        
         guard let amount = convertTextField.text else { return }
         // call checkInputValidity()
         checkInputValidity(input: amount)
@@ -89,22 +82,20 @@ extension ChangeViewController {
         instructLabel.isEnabled = true
         convertButton.isHidden = true
     }
-    
     // The method will replace a comma by a point to adress the european numeric keypad.
     private func checkInputValidity(input: String) {
         // change comma to point for european numeric keypads
         if let number = Double(input.replacingOccurrences(of: ",", with: ".")) {
             requestConversion(for: number)
         } else {
-            presentVCAlert(with: titleAlert.convertInputValidity.rawValue,
-                           and: messageAlert.convertInputValidity.rawValue)
+            presentVCAlert(with: TitleAlert.convertInputValidity.rawValue,
+                           and: MessageAlert.convertInputValidity.rawValue)
             convertTextField.text = ""
         }
     }
-    
-    //method to display a converted currency
+    // method to display a converted currency
     private func requestConversion(for amount: Double) {
-        toggleActivityIndicator(activityIndicator,shown: true)
+        toggleActivityIndicator(activityIndicator, shown: true)
         // call to api service.shared query with fixer structure as service parameters
         APIService.shared.query(API: .fixer) { (success, resource) in
             self.toggleActivityIndicator(self.activityIndicator, shown: false)
@@ -113,13 +104,11 @@ extension ChangeViewController {
                 self.updateDisplay(with: amount, and: rate)
             } else {
                 // if error update display with error from ErrorMessagesAlert and Uialert
-                
-                self.presentVCAlert(with: titleAlert.failure.rawValue,
-                                    and: messageAlert.convertRequest.rawValue)
+                self.presentVCAlert(with: TitleAlert.failure.rawValue,
+                                    and: MessageAlert.convertRequest.rawValue)
             }
         }
     }
-    
     //  Update display with a requested currency conversion
     private func updateDisplay(with amount: Double, and rate: Double) {
         // refresh the state of UI objects
@@ -127,7 +116,3 @@ extension ChangeViewController {
         currencyLabel.text = "$"
     }
 }
-
-
-
-

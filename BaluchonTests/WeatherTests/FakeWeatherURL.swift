@@ -5,7 +5,6 @@
 //  Created by Paul Ghibeaux on 22/08/2021.
 //
 
-
 import Foundation
 
 // The URLProtocol subclass allowing to intercept the network communication
@@ -57,7 +56,6 @@ class WeatherTestURLProtocol: URLProtocol {
     }
   }
 
- 
 }
 
 extension URL {

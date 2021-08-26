@@ -3,7 +3,7 @@
 //  Baluchon
 //
 //  Created by Paul Ghibeaux on 12/08/2021.
-//
+// swiftlint:disable all
 
 import Foundation
 import CoreLocation
@@ -26,7 +26,6 @@ struct Fixer {
     static private let accessKey = "?access_key=\(Constants.valueAPIKey("apiExchange"))"
     static private let parameters = "&sybols=USD"
     // return fixer url conversion + api key + parameters
-    
     static var url: String { return Fixer.endpoint + Fixer.accessKey + Fixer.parameters }
 }
 // TRANSLATE
@@ -34,22 +33,17 @@ struct Translate {
     static private let endpoint = "https://translation.googleapis.com/language/translate/v2"
     static private let accessKey = "?key=\(Constants.valueAPIKey("apiTranslate"))"
     static private let parameters = "&source=fr&target=en&format=text&q="
-    
     // return Google Translation service location
     static var url: String {
         return Translate.endpoint + Translate.accessKey + Translate.parameters
     }
 }
 // openWeather
-struct openWeather {
-    var place: String
-    
+struct OpenWeather {
     static let endpoint = "https://api.openweathermap.org/data/2.5/weather?"
     static let accessKey = "appid=\(Constants.valueAPIKey("apiWeather"))"
     static let parameters = "&units=metric"
-    
-    static var url: String { return openWeather.endpoint + openWeather.accessKey + openWeather.parameters }
-    
+    static var url: String { return OpenWeather.endpoint + OpenWeather.accessKey + OpenWeather.parameters }
 }
 
 // Parse data using a `JSONDecoder`
@@ -58,4 +52,3 @@ protocol ServiceProtocol {
     associatedtype T
     static func parse(_ data: Data, with decoder: JSONDecoder) -> T
 }
-

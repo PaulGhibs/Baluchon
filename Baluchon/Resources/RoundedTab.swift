@@ -3,7 +3,7 @@
 //  Baluchon
 //
 //  Created by Paul Ghibeaux on 01/08/2021.
-//
+// swiftlint:disable all
 
 import UIKit
 
@@ -25,10 +25,9 @@ import UIKit
         shapeLayer.fillColor = color?.cgColor ?? UIColor.white.cgColor
         shapeLayer.lineWidth = 2
         shapeLayer.shadowColor = UIColor.black.cgColor
-        shapeLayer.shadowOffset = CGSize(width: 0   , height: -3);
+        shapeLayer.shadowOffset = CGSize(width: 0, height: -3)
         shapeLayer.shadowOpacity = 0.2
         shapeLayer.shadowPath =  UIBezierPath(roundedRect: bounds, cornerRadius: radii).cgPath
-        
         if let oldShapeLayer = self.shapeLayer {
             layer.replaceSublayer(oldShapeLayer, with: shapeLayer)
         } else {
@@ -36,7 +35,6 @@ import UIKit
         }
         self.shapeLayer = shapeLayer
     }
-    
     // maths for shape
     private func createPath() -> CGPath {
         let path = UIBezierPath(
@@ -45,7 +43,6 @@ import UIKit
             cornerRadii: CGSize(width: radii, height: 0.0))
         return path.cgPath
     }
-    
     // show the tab bar
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -57,5 +54,4 @@ import UIKit
         self.frame = tabFrame
         self.items?.forEach({ $0.titlePositionAdjustment = UIOffset(horizontal: 0.0, vertical: -5.0) })
     }
-    
 }

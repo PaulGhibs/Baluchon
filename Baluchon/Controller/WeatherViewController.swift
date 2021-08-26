@@ -28,7 +28,6 @@ class WeatherViewController: UIViewController {
     // temps label of stackview
     @IBOutlet weak var tempLabel: UILabel!
     // icon imageview of stackview
-
     @IBOutlet weak var icon: UIImageView!
     // MARK: - Actions
     // search by coordinates
@@ -40,7 +39,6 @@ class WeatherViewController: UIViewController {
     @IBAction func searchButtonPressed(_ sender: UIButton) {
         searchBar.endEditing(true)
     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // protocol location manager
@@ -51,23 +49,20 @@ class WeatherViewController: UIViewController {
         weatherManager.delegate = self
         searchBar.delegate = self
         // hide temp citylabel and icon
-        tempLabel.text = ""
+        activityIndicator.isHidden = true
         cityLab.text = ""
         icon.image = .none
     }
 }
 
-
 // MARK: - Textfield Delegate
 extension WeatherViewController: UITextFieldDelegate {
     // MARK: Methods
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Tap gesture recognizer for dismiss keyboard
         searchBar.endEditing(true)
         return true
     }
-    
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         if textField.text != "" {
             return true
@@ -86,11 +81,9 @@ extension WeatherViewController: UITextFieldDelegate {
         // Clear text if a city is found
         searchBar.text = ""
     }
-    
-    
 }
 // MARK: - WeatherManagerDelegate
-extension WeatherViewController : WeatherManagerDelegate {
+extension WeatherViewController: WeatherManagerDelegate {
     // call protocol WeatherManagerDelegate if weather is trigger by citysearch
     // Privacy location usage in info.plist
     func didUpdateWeather(_ weatherManager: WeatherService, weather: WeatherModel) {
@@ -102,22 +95,16 @@ extension WeatherViewController : WeatherManagerDelegate {
             self.cityLab.text = weather.cityName
         }
     }
-    
-    
     func didFailWithError(error: Error) {
-      // if failed to load data from weather service show an alert with weather request failure from errorsMessages.swift
+// if failed to load data from weather service show an alert with weather request failure from errorsMessages.swift
         DispatchQueue.main.async {
-            self.toggleActivityIndicator(self.activityIndicator, shown: false)
-            self.presentVCAlert(with: titleAlert.failure.rawValue,
-                                and: messageAlert.weatherRequest.rawValue)
+            self.toggleActivityIndicator(self.activityIndicator, shown: true)
         }
     }
 }
 
-
-
-//MARK: - CLLocationManagerDelegate
-extension WeatherViewController : CLLocationManagerDelegate {
+// MARK: - CLLocationManagerDelegate
+extension WeatherViewController: CLLocationManagerDelegate {
     // call protocol if weather is trigger by location
     // Privacy location usage in info.plist with ClllocationManager and didupdatelocations as parameters
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -133,12 +120,11 @@ extension WeatherViewController : CLLocationManagerDelegate {
             print(lat, lon)
         }
     }
-    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         DispatchQueue.main.async {
             // if location is not activated or not working show an error failure from errorsMessages.swift
-            self.presentVCAlert(with: titleAlert.failure.rawValue,
-                                and: messageAlert.weatherRequest.rawValue)
+            self.presentVCAlert(with: TitleAlert.failure.rawValue,
+                                and: MessageAlert.weatherRequest.rawValue)
         }
     }
 }

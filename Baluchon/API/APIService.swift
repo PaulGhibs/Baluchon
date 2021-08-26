@@ -12,15 +12,11 @@ class APIService {
     // A closure to provide the state of a network call to the ViewControllers
     typealias Callback = (Bool, Any?) -> Void
     var request: URLRequest?
-    
-    //Decoded data from an API
+    // Decoded data from an API
     var resource: Any?
-    
     static var shared = APIService()
     private init() {}
-    
     private var task: URLSessionDataTask?
-    
     // for testing purpose
     private var session = URLSession(configuration: .default)
     init(session: URLSession) {
@@ -60,7 +56,6 @@ extension APIService {
                         return
                     }
                     self?.resource = ConversionService.parse(data, with: decoder)
-                    
                 case .translate:
                     if TranslatorService.parse(data, with: decoder) as? Int == -1 {
                         callback(false, nil)
@@ -69,7 +64,6 @@ extension APIService {
                     self?.resource = TranslatorService.parse(data, with: decoder)
                 }
                 // if no data or an error for resource is present return callback(false,nil)
-                
                 callback(true, self?.resource)
             }
         }

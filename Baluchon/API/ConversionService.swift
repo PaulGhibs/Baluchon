@@ -28,10 +28,6 @@ extension ConversionService: ServiceProtocol {
         guard let resource = json.rates[ConversionRates.USD.rawValue] else {
             return -2
         }
-        
         return resource
     }
-    
-    
-    
 }

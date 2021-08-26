@@ -12,7 +12,6 @@ import Foundation
 
 struct TranslatorService {
     // MARK: - Create request with extension API SERVICE
-    
     static func createRequest(for text: String) -> URLRequest {
         // encoding url with percentages
         let encodedText = text.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
@@ -22,7 +21,6 @@ struct TranslatorService {
         var request = URLRequest(url: url)
         // enum instance from structure translate of services.swift
         request.httpMethod = MethodHttp.post.rawValue
-        
         return request
     }
 }
@@ -39,4 +37,3 @@ extension TranslatorService: ServiceProtocol {
         return resource
     }
 }
-

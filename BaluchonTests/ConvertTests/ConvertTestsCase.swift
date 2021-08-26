@@ -11,13 +11,12 @@ import XCTest
 
 class ConvertTestsCase: XCTestCase {
     func testGivenValueaRateforConvertShouldReturn1() {
-        //given
+        // Given
         let value = 3.0
         let rate = 3.0
-        //when
+        // When
         let result = ConversionJson.convert(value, with: rate)
-        //then
+        // Then
         XCTAssertEqual(result, "1.00")
     }
-   
 }

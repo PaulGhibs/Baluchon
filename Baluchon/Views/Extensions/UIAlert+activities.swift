@@ -8,9 +8,8 @@
 import UIKit
 import Foundation
 
-
 extension UIViewController {
-//Show an alert to the user if there is no data coming back from network
+// Show an alert to the user if there is no data coming back from network
     // method to display an alert
     func presentVCAlert(with title: String, and message: String) {
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)

@@ -3,7 +3,7 @@
 //  Baluchon
 //
 //  Created by Paul Ghibeaux on 01/08/2021.
-//
+// swiftlint:disable all
 
 import Foundation
 /* Managing data coming from Fixer api as codable openweather response is
@@ -47,7 +47,6 @@ struct Weather: Codable {
 //  Define the weather model data structure
 struct WeatherModel {
     let conditionId: Int
-    
     let cityName: String
     let temperature: Double
     var temperatureString: String {
@@ -74,6 +73,4 @@ struct WeatherModel {
             return "cloud"
         }
     }
-    
 }
-

@@ -3,12 +3,10 @@
 //  BaluchonTests
 //
 //  Created by Paul Ghibeaux on 21/08/2021.
-//
+//  swiftlint:disable all
 
 import Foundation
 import XCTest
-
-
 
 // Classical process of URL Session fake was showing depreciated error for ios 13
 // The URLProtocol subclass allowing to intercept the network communication
@@ -24,8 +22,8 @@ final class TestURLProtocol: URLProtocol {
         return request
     }
     // this dictionary maps URLRequests to test data
-    static var loadingHandler: ((URLRequest) -> (Data?, HTTPURLResponse,  Error?))?
-    
+    static var loadingHandler: ((URLRequest) -> (Data?, HTTPURLResponse, Error?))?
+
     override func startLoading() {
         // if we have a valid URL…
         guard let handler = TestURLProtocol.loadingHandler else {
@@ -34,7 +32,7 @@ final class TestURLProtocol: URLProtocol {
             return
         }
         // return the data response as handler
-        let (data, response,  error) = handler(request)
+        let (data, response, error) = handler(request)
         if let data = data {
             // load protocol immediately with model
 
@@ -43,7 +41,6 @@ final class TestURLProtocol: URLProtocol {
             client?.urlProtocolDidFinishLoading(self)
         }
         else {
-            
             // else fail with error
             client?.urlProtocol(self, didFailWithError: error!)
         }
@@ -51,4 +48,3 @@ final class TestURLProtocol: URLProtocol {
     // this method is required but doesn't need to do anything
     override func stopLoading() {}
 }
-

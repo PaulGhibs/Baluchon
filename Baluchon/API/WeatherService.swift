@@ -3,7 +3,7 @@
 //  Baluchon
 //
 //  Created by Paul Ghibeaux on 01/08/2021.
-//
+// swiftlint:disable all
 
 import Foundation
 import CoreLocation
@@ -14,43 +14,37 @@ protocol WeatherManagerDelegate {
     func didFailWithError(error: Error)
 }
 
-
 // Weather service API 
 struct WeatherService {
-    
     // Singleton pattern
     static var shared = WeatherService()
     private init() {}
-    
     // Attribute & init
-    private var task : URLSessionDataTask?
+    private var task: URLSessionDataTask?
     private var weatherSession = URLSession(configuration: .default)
-    
     // dependencies injection for testing purposes
     init(weatherSession: URLSession) {
         self.weatherSession = weatherSession
     }
-    
     var delegate: WeatherManagerDelegate?
     
     // Build a URL to access openweather API by city
     func fetchWeather(cityName: String) {
-        let urlString = "\(openWeather.url)&q=\(cityName)"
+        let urlString = "\(OpenWeather.url)&q=\(cityName)"
         performRequest(with: urlString)
     }
-    
     // Build a URL to access openweather API by location
     // need coreLocation to have the exact lat & lon
     func fetchWeatherByCoordinates(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
-        let urlString = "\(openWeather.url)&lat=\(latitude)&lon=\(longitude)"
+        let urlString = "\(OpenWeather.url)&lat=\(latitude)&lon=\(longitude)"
         performRequest(with: urlString)
     }
     // request weather and update with protocol if there is an error
     func performRequest(with urlString: String) {
         if let url = URL(string: urlString) {
-            //default session for task with data response error protocol if failed
+            // default session for task with data response error protocol if failed
             let session = URLSession(configuration: .default)
-            let task = session.dataTask(with: url) { (data, response, error) in
+            let task = session.dataTask(with: url) {(data, response, error) in
                 if error != nil {
                     self.delegate?.didFailWithError(error: error!)
                     return
@@ -74,7 +68,6 @@ struct WeatherService {
             let id = decodedData.weather[0].id
             let temperature = decodedData.main.temp
             let cityName = decodedData.name
-            
             let weather = WeatherModel(conditionId: id, cityName: cityName, temperature: temperature)
             // return weather as weather model from decoder with id city name and temperature
             return weather
@@ -84,10 +77,5 @@ struct WeatherService {
             return nil
         }
     }
-    
 }
-
-
-
-
 

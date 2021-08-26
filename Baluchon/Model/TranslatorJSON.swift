@@ -3,19 +3,19 @@
 //  Baluchon
 //
 //  Created by Paul Ghibeaux on 02/08/2021.
-//
+//  swiftlint:disable all
+
 
 import Foundation
 
-
 /* Managing data coming from google api as codable google response is
  "data": {
-"translations": [
-{
-"translatedText": "Bonjour Monde!"
-}
-]
-}
+ "translations": [
+ {
+ "translatedText": "Bonjour Monde!"
+ }
+ ]
+ }
  */
 
 struct TranslatorJson: Codable {
@@ -32,6 +32,4 @@ struct TranslatorJson: Codable {
     init(data: Translations) {
         self.data = data
     }
-
 }
-

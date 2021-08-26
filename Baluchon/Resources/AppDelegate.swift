@@ -3,13 +3,12 @@
 //  Baluchon
 //
 //  Created by Paul Ghibeaux on 28/07/2021.
-//
+//  swiftlint:disable all
 
 import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

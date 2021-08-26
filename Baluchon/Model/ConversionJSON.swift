@@ -3,7 +3,7 @@
 //  Baluchon
 //
 //  Created by Paul Ghibeaux on 04/08/2021.
-//
+// swiftlint:disable all
 
 import Foundation
 
@@ -29,4 +29,3 @@ extension ConversionJson {
         return String(format: "%.2f", convertedValue)
     }
 }
-
